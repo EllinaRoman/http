@@ -6,7 +6,7 @@ const createRequest = async (options = {}) => {
   });
 
   if (!response.ok) {
-    throw new Error('Error')
+    throw new Error(`Ошибка ${response.status}`)
   } else if (response.status === 204) {
     return;
   } else {

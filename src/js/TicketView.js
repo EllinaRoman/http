@@ -19,8 +19,12 @@ export default class TicketView {
     checkbox.checked = this.ticket.status;
 
     checkbox.addEventListener('change', async () => {
-      await this.service.update(this.ticket.id, { status: checkbox.checked });
-      this.refresh();
+      try {
+        await this.service.update(this.ticket.id, { status: checkbox.checked });
+        this.refresh();
+      } catch (error) {
+        alert(error.message);
+      }
     });
 
     const title = document.createElement('span');
@@ -37,8 +41,12 @@ export default class TicketView {
 
     changeBtn.addEventListener('click', () => {
       const form = new TicketForm('edit', this.ticket, async (data) => {
-        await this.service.update(this.ticket.id, data);
-        this.refresh();
+        try {
+          await this.service.update(this.ticket.id, data);
+          this.refresh();
+        } catch (error) {
+          alert(error.message);
+        }
       });
 
       document.querySelector('#root').append(form.create());
@@ -72,8 +80,12 @@ export default class TicketView {
       save.addEventListener('click', async () => {
         form.remove();
         document.body.classList.remove('modal-open');
-        await this.service.delete(this.ticket.id);
-        this.refresh();
+        try {
+          await this.service.delete(this.ticket.id);
+          this.refresh();
+        } catch (error) {
+          alert(error.message);
+        }
       });
 
       buttons.append(cancel, save);

@@ -16,8 +16,12 @@ export default class HelpDesk {
   }
 
   async init() {
-    this.tickets = await this.ticketService.list();
-    this.render();
+    try {
+      this.tickets = await this.ticketService.list();
+      this.render();
+    } catch (error) {
+      alert(error.message);
+    }
   }
 
   render() {
@@ -29,10 +33,13 @@ export default class HelpDesk {
 
     newTicket.addEventListener('click', () => {
       const form = new TicketForm('create', null, async (data) => {
-        await this.ticketService.create(data);
-        await this.init();
+        try {
+          await this.ticketService.create(data);
+          await this.init();
+        } catch (error) {
+          alert(error.message);
+        }
       });
-
       this.container.append(form.create());
     });
 
